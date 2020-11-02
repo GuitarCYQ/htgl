@@ -1,0 +1,14 @@
+@if (count(array($errors)) > 0)
+    <div class="alert alert-danger">
+        <div class="mt-2"><b>有错误发生：</b></div>
+        <ul class="mt-2 mb-2">
+            @if(is_object($errors))
+                @foreach ($errors->all() as $error)
+                    <li><i class="glyphicon glyphicon-remove"></i> {{ $error }}</li>
+                @endforeach
+            @else
+                <li><i class="glyphicon glyphicon-remove"></i> {{ $errors }}</li>
+            @endif
+        </ul>
+    </div>
+@endif
