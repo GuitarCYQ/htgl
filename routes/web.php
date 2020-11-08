@@ -26,9 +26,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function (){
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
     Route::get('index','IndexController@index')->name('admin.index');
+    Route::get('welcome','IndexController@welcome')->name('admin.welcome');
+
+    //用户
+    Route::resource('users', 'UserController',['as' =>  'admin']);
 });
-
-
 
 
 

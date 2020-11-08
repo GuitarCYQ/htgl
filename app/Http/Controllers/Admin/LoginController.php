@@ -24,6 +24,9 @@ class LoginController extends Controller
 
     public function index()
     {
+        if ($this->guard()->check()){
+            return redirect()->route('admin.index');
+        }
         return view('admin.login.index');
     }
 
