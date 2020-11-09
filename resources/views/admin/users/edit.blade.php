@@ -56,20 +56,34 @@
                 //监听提交
                 form.on('submit(add)',
                     function(data) {
+                        var name = $('#L_username').val();
+                        var password = $('#L_pass').val();
+                        var email = $('#L_email').val();
                         //发异步，把数据提交给php
                         $.ajax({
                             url:'{{ route('admin.users.update',$user) }}',
                             type: 'PUT',
                             data: {
+                                'name' : name,
+                                'password' : password,
+                                'email' : email,
                             },
                             headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
                             dataType: 'json',
                             success:function (data) {
-                                    //关闭当前frame
-                                    xadmin.close();
-                                    // 可以对父窗口进行刷新
-                                    xadmin.father_reload();
-                            }
+                                //弹层提示添加成功，并刷新页面
+                                if (data.status == 1){
+                                    layer.alert(data.message,{icon:3},function () {
+                                        // parent.location.reload(true);
+                                        //关闭当前frame
+                                        xadmin.close();
+                                        // 可以对父窗口进行刷新
+                                        xadmin.father_reload();
+                                    })
+                                }else{
+                                    layer.alert(data.message,{icon: 5});
+                                }
+                            },
 
                         });
                         return false;

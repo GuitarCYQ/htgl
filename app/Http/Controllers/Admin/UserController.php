@@ -26,35 +26,27 @@ class UserController extends Controller
     public function store(UsersRequest $request)
     {
         $input = $request->except('_token');
-        $data['name'] = $input['name'];
-        $data['password'] = bcrypt($input['password']);
-        $data['email'] = $input['email'];
 
+        $name = $input['name'];
+        $email = $input['email'];
+        $password = Crypt::encrypt($input['password']);
 
-        $users = User::create($data);
-        if ($users)
-        {
+        $res = User::create(['name'=>$name,'password'=>$password,'email'=>$email]);
+
+        if ($res){
             $data = [
-                'status' => 1,
-                'message'   =>  '添加成功！',
+                'status'=>0,
+                'message'=>'添加成功'
             ];
-        }else
-        {
+        }else{
             $data = [
-                'status' => 0,
-                'message'   =>  '添加失败！',
+                'status'=>1,
+                'message'=>'添加失败'
             ];
         }
-
         return $data;
 
     }
-
-    public function show($id)
-    {
-        //
-    }
-
 
     public function edit(User $user)
     {
@@ -74,19 +66,42 @@ class UserController extends Controller
 
         if (trim($password) == '')
         {
-            $user->update(['name' => $name]);
+            $res = $user->update(['name' => $name]);
         }else{
-            $user->update(['name' => $name, 'password' => bcrypt($password)]);
+            $res = $user->update(['name' => $name, 'password' => bcrypt($password)]);
         }
 
-        session()->flash('success','修改成功');
-        return $data = ['status' => 1];
+        if ($res){
+            $data = [
+                'status'=>0,
+                'message'=>'修改成功'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'message'=>'修改失败'
+            ];
+        }
+        return $data;
     }
 
     public function destroy(User $user)
     {
-        $user->delete();
-        session()->flash('success','删除成功');
-        return $data = ['status' => 1];
+        $del = $user->delete();
+//        session()->flash('success','删除成功');
+        if ($del)
+        {
+            $data = [
+                'status' => 1,
+                'message'   =>  '删除成功！',
+            ];
+        }else
+        {
+            $data = [
+                'status' => 0,
+                'message'   =>  '删除失败！',
+            ];
+        }
+        return $data;
     }
 }

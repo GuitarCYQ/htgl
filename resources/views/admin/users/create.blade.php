@@ -4,7 +4,13 @@
 @section('content')
     <div class="layui-fluid">
         <div class="layui-row">
-            @include('shared._errors')
+            @if($errors->any())
+                <div class = "Huialert Huialert-error"> <i class = "Hui-iconfont"> x </i>
+                    @foreach($errors -> all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </div>
+            @endif
             <form class="layui-form" action="" method="">
 
                 @csrf
@@ -78,7 +84,7 @@
                             },
                             success:function(data){
                                 if (data.status == 0){
-                                    layer.alert(data.message,{icon:6},function () {
+                                    layer.alert(data.message,{icon:1},function () {
                                         xadmin.close();
                                         xadmin.father_reload();
                                     })

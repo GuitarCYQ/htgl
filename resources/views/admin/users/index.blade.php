@@ -167,8 +167,8 @@
                 success:function(data) {
                     if (data.status == 1){
                         $(obj).parents("tr").remove();
-                        xadmin.father_reload();
-                        // layer.msg('已删除!',{icon:1,time:1000});
+                        // xadmin.father_reload();
+                        layer.msg(data.message,{icon:1,time:1000});
                     }
                 }
             })
