@@ -46,6 +46,7 @@ class UserController extends Controller
         }
         return $data;
 
+
     }
 
     public function edit(User $user)

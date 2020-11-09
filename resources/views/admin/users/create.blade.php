@@ -89,8 +89,15 @@
                                         xadmin.father_reload();
                                     })
                                 }
+                            },
+                            error:function (msg) {
+                                var json=JSON.parse(msg.responseText);
+                                $.each(json.errors, function(idx, obj) {
+                                    alert(obj[0]);
+                                    return false;
+                                });
                             }
-                    })
+                        });
                         return false;
                     });
 

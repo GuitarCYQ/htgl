@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'],function (){
     Route::get('welcome','IndexController@welcome')->name('admin.welcome');
 
     //用户
-    Route::resource('users', 'UserController',['as' =>  'admin']);
+    Route::resource('users', 'UserController',['as' =>  'admin'])->except('show');
 });
 
 
