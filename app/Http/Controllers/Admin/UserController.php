@@ -82,6 +82,7 @@ class UserController extends Controller
                 'message'=>'修改失败'
             ];
         }
+
         return $data;
     }
 

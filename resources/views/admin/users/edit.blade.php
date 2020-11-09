@@ -30,7 +30,7 @@
                     <div class="layui-form-mid layui-word-aux">6到16个字符</div></div>
                 <div class="layui-form-item">
                     <label for="L_repass" class="layui-form-label"></label>
-                    <button class="layui-btn" lay-filter="add" lay-submit="">修改</button></div>
+                    <button class="layui-btn" lay-filter="edit" lay-submit="">修改</button></div>
             </form>
         </div>
     </div>
@@ -54,26 +54,28 @@
                 });
 
                 //监听提交
-                form.on('submit(add)',
+                //监听提交
+                form.on('submit(edit)',
                     function(data) {
                         var name = $('#L_username').val();
                         var password = $('#L_pass').val();
                         var email = $('#L_email').val();
-                        //发异步，把数据提交给php
                         $.ajax({
-                            url:'{{ route('admin.users.update',$user) }}',
-                            type: 'PUT',
-                            data: {
-                                'name' : name,
-                                'password' : password,
-                                'email' : email,
+                            type:'PUT',
+                            dataType:'json',
+                            headers:{
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
-                            headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
-                            dataType: 'json',
+                            url:"{{ route('admin.users.update',$user->id) }}",
+                            data:{
+                                'name':name,
+                                'password':password,
+                                'email':email,
+                            },
                             success:function (data) {
                                 //弹层提示添加成功，并刷新页面
-                                if (data.status == 1){
-                                    layer.alert(data.message,{icon:3},function () {
+                                if (data.status == 0){
+                                    layer.alert(data.message,{icon:1},function () {
                                         // parent.location.reload(true);
                                         //关闭当前frame
                                         xadmin.close();
@@ -81,10 +83,12 @@
                                         xadmin.father_reload();
                                     })
                                 }else{
-                                    layer.alert(data.message,{icon: 5});
+                                    layer.alert(data.message,{icon: 2});
                                 }
                             },
-
+                            error:function () {
+                                //错误信息
+                            }
                         });
                         return false;
                     });
