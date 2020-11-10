@@ -40,28 +40,19 @@
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>用户列表</cite></a>
                     </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
+                    <cite>权限管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+
                     <li>
-                        <a onclick="xadmin.add_tab('用户添加','{{ route('admin.users.create') }}')">
+                        <a onclick="xadmin.add_tab('用户列表','{{ route('admin.users.index') }}',true)">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>用户添加</cite></a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont">&#xe70b;</i>
-                            <cite>会员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>会员删除</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('等级管理','member-list1.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>等级管理</cite></a>
-                            </li>
-                        </ul>
+                            <cite>权限列表</cite></a>
                     </li>
                 </ul>
             </li>

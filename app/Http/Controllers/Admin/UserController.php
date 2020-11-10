@@ -11,11 +11,26 @@ use Illuminate\Support\Facades\Crypt;
 class UserController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        //获取搜索提交的参数
+//        $input = $request->all();
+//        dd($input);
 
-        $users = User::orderBy('created_at','desc')->paginate(5);
-        return view('admin.users.index',compact('users'));
+        $users = User::orderBy('id','asc')
+            ->where(function ($query) use ($request){
+                $name = $request->input('name');
+                $email = $request->input('email');
+                if(!empty($name)){
+                    $query->where('name','like','%'.$name.'%');
+                }
+                if(!empty($email)){
+                    $query->where('created_at','like','%'.$email.'%');
+                }
+            })
+            ->paginate(1);
+
+        return view('admin.users.index',compact('users','request'));
     }
 
     public function create()
