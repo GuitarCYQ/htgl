@@ -17,18 +17,9 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="{{ route('admin.users.index') }}" method="get">
-                        {{--<div class="layui-inline layui-show-xs-block">--}}
-                            {{--<input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">--}}
-                        {{--</div>--}}
-                        {{--<div class="layui-inline layui-show-xs-block">--}}
-                            {{--<input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">--}}
-                        {{--</div>--}}
+                    <form class="layui-form layui-col-space5" action="{{ route('admin.admin.index') }}" method="get">
                         <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="name" value="{{ $request->input('name') }}" placeholder="请输入用户名" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="layui-inline layui-show-xs-block">
-                            <input type="text" name="email" value="{{ $request->input('email') }}" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                            <input type="text" name="username" value="{{ $request->input('username') }}" placeholder="请输入管理员名" autocomplete="off" class="layui-input">
                         </div>
                         <div class="layui-inline layui-show-xs-block">
                             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
@@ -36,37 +27,28 @@
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','{{ route('admin.users.create') }}',600,400)"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','{{ route('admin.admin.create') }}',600,400)"><i class="layui-icon"></i>添加</button>
                 </div>
 
-                @extends('shared._messages')
+                @include('shared._messages')
 
                 <div class="layui-card-body layui-table-body layui-table-main">
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>
-                                <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
-                            </th>
                             <th>ID</th>
                             <th>姓名</th>
-                            <th>邮箱</th>
                             <th>创建日期</th>
                             <th>修改日期</th>
                             <th>状态</th>
                             <th>操作</th></tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $u)
+                        @foreach($admin as $u)
                             @csrf
                         <tr>
-                            <td>
-                                <input type="checkbox" name="id" value="{{ $u->id }}"   lay-skin="primary">
-                            </td>
                             <td>{{ $u->id }}</td>
-                            <td>{{ $u->name }}</td>
-                            <td>{{ $u->email }}</td>
+                            <td>{{ $u->username }}</td>
                             <td>{{ $u->created_at }}</td>
                             <td>{{ $u->updated_at }}</td>
                             <td class="td-status">
@@ -75,11 +57,15 @@
                                 <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                                     <i class="layui-icon">&#xe601;</i>
                                 </a>
-                                <a title="编辑"  onclick="xadmin.open('编辑','{{ route('admin.users.edit',$u) }}',600,400)" href="javascript:;">
+                                <a title="编辑"  onclick="xadmin.open('编辑','{{ route('admin.admin.edit',$u) }}',600,400)" href="javascript:;">
                                     <i class="layui-icon">&#xe642;</i>
                                 </a>
 
-                                <a title="删除" url="{{ route('admin.users.destroy',$u->id) }}" onclick="member_del(this,{{ $u->id }})" href="javascript:;">
+                                <a title="授权" href="{{ route('admin.admin.auth',$u) }}">
+                                    <i class="layui-icon">&#xe612;</i>
+                                </a>
+
+                                <a title="删除" url="{{ route('admin.admin.destroy',$u->id) }}" onclick="member_del(this,{{ $u->id }})" href="javascript:;">
                                     <i class="layui-icon">&#xe640;</i>
                                 </a>
                             </td>
@@ -91,7 +77,7 @@
                 </div>
                 <div class="layui-card-body ">
                     <div class="page">
-                        {{ $users->appends($request->all())->render() }}
+                        {{ $admin->appends($request->all())->render() }}
                     </div>
                 </div>
             </div>
@@ -190,14 +176,9 @@
         });
 
         layer.confirm('确认要删除吗？'+ids.toString(),function(index){
-            $.get('users/delAll',{'ids':ids},function (data) {
-                if (data.status == 0){
-                    $(".layui-form-checked").not('.header').parents('tr').remove();
-                    layer.msg(data.message,{icon:6,time:1000});
-                }else{
-                    layer.msg(data.message,{icon:5,time:1000});
-                }
-            })
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
         });
     }
 </script>

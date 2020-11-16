@@ -22,4 +22,9 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function role()
+    {
+        return $this->belongsToMany('App\Models\Role','admin_role','admin_id','role_id');
+    }
 }

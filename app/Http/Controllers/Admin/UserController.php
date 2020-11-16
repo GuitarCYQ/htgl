@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UsersRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -28,7 +30,7 @@ class UserController extends Controller
                     $query->where('created_at','like','%'.$email.'%');
                 }
             })
-            ->paginate(1);
+            ->paginate(10);
 
         return view('admin.users.index',compact('users','request'));
     }
@@ -63,6 +65,8 @@ class UserController extends Controller
 
 
     }
+
+
 
     public function edit(User $user)
     {
@@ -117,6 +121,25 @@ class UserController extends Controller
             $data = [
                 'status' => 0,
                 'message'   =>  '删除失败！',
+            ];
+        }
+        return $data;
+    }
+
+    public function delAll(Request $request)
+    {
+        $input = $request->input('ids');
+
+        $res = User::destroy($input);
+        if ($res){
+            $data = [
+                'status'=>0,
+                'message'=>'删除成功'
+            ];
+        }else{
+            $data = [
+                'status'=>1,
+                'message'=>'删除失败'
             ];
         }
         return $data;

@@ -7,9 +7,10 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-body ">
-                        <blockquote class="layui-elem-quote">欢迎管理员：
-                            <span class="x-red">test</span>！当前时间:2018-04-25 20:50:53
-                        </blockquote>
+                        {{--<blockquote class="layui-elem-quote">欢迎管理员：--}}
+                            {{--<span class="x-red">test</span>！当前时间:2018-04-25 20:50:53--}}
+                        {{--</blockquote>--}}
+                        @include('shared._messages')
                     </div>
                 </div>
             </div>

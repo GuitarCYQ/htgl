@@ -11,9 +11,14 @@ class LoginController extends Controller
 {
 
 
+    protected $redirectTo = '/admin/index';
+
     public function __construct()
     {
         $this->middleware('guest:admin')->except('logout');
+        if ($this->guard()->check()){
+            return redirect()->route('admin.index');
+        }
     }
 
     //使用auth.php的guard->admin
@@ -24,29 +29,33 @@ class LoginController extends Controller
 
     public function index()
     {
-        if ($this->guard()->check()){
-            return redirect()->route('admin.index');
-        }
+
         return view('admin.login.index');
     }
 
     public function login(LoginRequest $request)
     {
+
         if ($this->guard()->attempt($request->only(['username','password']))){
-            session()->put('user',$request->except('_token'));
-            return redirect()->route('admin.index')->with('success','登陆成功');
+            $admin = Admin::where('username',$request['username'])->first();
+            session()->put('admin',$admin);
+            return redirect()->route('admin.index')->with('success','欢迎回来！');
         }else
         {
             return redirect()->back()->withErrors(['errors' => '登陆失败']);
         }
     }
 
-    public function logout(Request $request)
+    //用户退出
+    public function logout()
     {
         $this->guard()->logout();
+        return redirect(route('admin.login'));
+    }
 
-        $request->session()->invalidate();
-
-        return redirect()->route('admin.login');
+    //无权限
+    public function noaccess()
+    {
+        return view('shared.noaccess');
     }
 }

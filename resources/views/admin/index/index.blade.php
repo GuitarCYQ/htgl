@@ -44,13 +44,41 @@
             </li>
             <li>
                 <a href="javascript:;">
-                    <i class="iconfont left-nav-li" lay-tips="会员管理">&#xe6b8;</i>
+                    <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe6b8;</i>
+                    <cite>管理员管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+
+                    <li>
+                        <a onclick="xadmin.add_tab('管理员列表','{{ route('admin.admin.index') }}',true)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>管理员列表</cite></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="角色管理">&#xe6b8;</i>
+                    <cite>角色管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i></a>
+                <ul class="sub-menu">
+
+                    <li>
+                        <a onclick="xadmin.add_tab('角色列表','{{ route('admin.role.index') }}',true)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>角色列表</cite></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont left-nav-li" lay-tips="权限管理">&#xe6b8;</i>
                     <cite>权限管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i></a>
                 <ul class="sub-menu">
 
                     <li>
-                        <a onclick="xadmin.add_tab('用户列表','{{ route('admin.users.index') }}',true)">
+                        <a onclick="xadmin.add_tab('权限列表','{{ route('admin.permission.index') }}',true)">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>权限列表</cite></a>
                     </li>
